@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: selenium-streamlit
+    env: docker
+    plan: free
+    repo: https://github.com/NAMA_KAMU/NAMA_REPO_KAMU
+    branch: main
+    autoDeploy: true
