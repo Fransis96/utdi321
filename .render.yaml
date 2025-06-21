@@ -3,6 +3,6 @@ services:
     name: selenium-streamlit
     env: docker
     plan: free
-    repo: https://github.com/NAMA_KAMU/NAMA_REPO_KAMU
+    repo: https://github.com/Fransis96/utdi321
     branch: main
     autoDeploy: true
