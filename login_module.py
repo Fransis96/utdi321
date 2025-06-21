@@ -1,3 +1,18 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+
+# Konfigurasi URL dan field login
+credentials = {
+    'siakad': {
+        'url': 'https://elearning.utdi.ac.id/login',
+        'username_field': 'username',
+        'password_field': 'password'
+    }
+}
+
 def fill_and_submit_form(service, username, password, screenshot_path="hasil_login.png"):
     config = credentials[service]
     url = config['url']
@@ -5,7 +20,7 @@ def fill_and_submit_form(service, username, password, screenshot_path="hasil_log
     password_field = config['password_field']
 
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")  # Tambahkan jika ingin headless
+    options.add_argument("--headless")  # Mode tanpa GUI
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
@@ -29,6 +44,7 @@ def fill_and_submit_form(service, username, password, screenshot_path="hasil_log
 
         time.sleep(5)
 
+        # Screenshot tampilan setelah login
         driver.save_screenshot(screenshot_path)
         return True, screenshot_path
 
