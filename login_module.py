@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
 import time
 
 # Konfigurasi URL dan field login
@@ -19,14 +20,16 @@ def fill_and_submit_form(service, username, password, screenshot_path="hasil_log
     username_field = config['username_field']
     password_field = config['password_field']
 
+    # Konfigurasi opsi Chrome untuk server
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+    options.add_argument("--headless")  # Mode tanpa GUI
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.binary_location = "/usr/bin/chromium"  # Lokasi Chrome di Render
+    options.binary_location = "/usr/bin/chromium"  # Lokasi Chromium di container
 
-    driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=options)
-
+    # Gunakan Service object sesuai dengan Selenium 4
+    service_obj = Service("/usr/bin/chromedriver")
+    driver = webdriver.Chrome(service=service_obj, options=options)
 
     try:
         driver.get(url)
