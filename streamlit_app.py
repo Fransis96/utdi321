@@ -1,24 +1,36 @@
 import streamlit as st
-from login_module import fill_and_submit_form
+import joblib
 
-st.title("🔐 Login Otomatis ke ELA UTDI")
+# Load semua model dan vectorizer
+model_lr = joblib.load('lr_model_v1.joblib')
+vectorizer_lr = joblib.load('tfidf_v1.joblib')
 
-# Bungkus dengan form
-with st.form("login_form"):
-    username = st.text_input("Masukkan Username")
-    password = st.text_input("Masukkan Password", type="password")
-    submit = st.form_submit_button("Login Sekarang")
+model_nb = joblib.load('nb_model_v1.joblib')
+vectorizer_nb = joblib.load('cv_v1.joblib')
 
-# Submit diproses di luar blok 'with'
-if submit:
-    if not username or not password:
-        st.warning("Harap isi username dan password!")
+# Judul halaman
+st.title("🧠 Klasifikasi Sentimen Teks")
+
+# Pilihan model
+model_choice = st.selectbox("Pilih model yang akan digunakan:", ["Logistic Regression", "Naive Bayes"])
+
+# Input dari user
+teks_input = st.text_area("Masukkan teks untuk dianalisis:")
+
+# Tombol prediksi
+if st.button("Prediksi Sentimen"):
+    if not teks_input.strip():
+        st.warning("Teks tidak boleh kosong.")
     else:
-        st.info("🚀 Memulai login...")
-        success, result = fill_and_submit_form('siakad', username, password)
+        teks_bersih = teks_input.lower()
 
-        if success:
-            st.success("✅ Login berhasil.")
-            st.image(result, caption="Hasil Screenshot")
+        # Tentukan model & vectorizer
+        if model_choice == "Logistic Regression":
+            X = vectorizer_lr.transform([teks_bersih])
+            prediksi = model_lr.predict(X)[0]
         else:
-            st.error(f"❌ Gagal login: {result}")
+            X = vectorizer_nb.transform([teks_bersih])
+            prediksi = model_nb.predict(X)[0]
+
+        # Tampilkan hasil
+        st.success(f"Hasil Prediksi Sentimen: **{prediksi.upper()}**")
