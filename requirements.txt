@@ -1,2 +1,6 @@
 streamlit
 selenium
+streamlit
+scikit-learn
+pandas
+joblib
