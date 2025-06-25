@@ -4,16 +4,18 @@ import numpy as np
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-# Load semua model dan vectorizer
+# Load model dan vectorizer
 model_lr = joblib.load('./model/lr_model_v1.joblib')
 vectorizer_lr = joblib.load('./model/tfidf_v1.joblib')
 
 model_svc = joblib.load('./model/svc_model_v3.joblib')
 svc_vectorizer = joblib.load('./model/tfidf_svc_v3.joblib')
 
-model_dnn = load_model('./model/model_dnn.h5')
-tokenizer_dnn = joblib.load('./model/tokenizer_dnn.joblib')
-maxlen = 100  # ganti dengan panjang maksimum saat kamu latih model
+model_dnn = load_model('./model/dnn_model_v1.keras')
+tokenizer_dnn = joblib.load('./model/tokenizer_dnn_v1.joblib')
+label_encoder_dnn = joblib.load('./model/label_encoder_v1.joblib')  # opsional
+
+maxlen = 100  # Panjang input yang digunakan saat training DNN
 
 # Judul halaman
 st.title("🕵️ Klasifikasi Sentimen Teks")
@@ -42,8 +44,9 @@ if st.button("Prediksi Sentimen"):
         elif model_choice == "DNN":
             seq = tokenizer_dnn.texts_to_sequences([teks_bersih])
             padded = pad_sequences(seq, maxlen=maxlen)
-            pred = model_dnn.predict(padded)
-            prediksi = "non-negative" if pred[0][0] > 0.5 else "negative"
+            prob = model_dnn.predict(padded, verbose=0)[0][0]
+            label = 1 if prob > 0.5 else 0
+            prediksi = label_encoder_dnn.inverse_transform([label])[0]
 
         # Tampilkan hasil
         st.success(f"Hasil Prediksi: **{prediksi.upper()}**")
