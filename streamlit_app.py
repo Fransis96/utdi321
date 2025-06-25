@@ -11,7 +11,7 @@ vectorizer_lr = joblib.load('./model/tfidf_v1.joblib')
 model_svc = joblib.load('./model/svc_model_v3.joblib')
 svc_vectorizer = joblib.load('./model/tfidf_svc_v3.joblib')
 
-model_dnn = load_model('./model/dnn_model_v1.h5')
+model_dnn = load_model('./model/dnn_model_v1.keras')
 tokenizer_dnn = joblib.load('./model/tokenizer_dnn_v1.joblib')
 label_encoder_dnn = joblib.load('./model/label_encoder_v1.joblib')  # opsional
 
