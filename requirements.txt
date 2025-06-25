@@ -3,5 +3,4 @@ selenium
 scikit-learn
 pandas
 joblib
-tensorflow
 tensorflow==2.12.1
