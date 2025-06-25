@@ -4,4 +4,4 @@ scikit-learn
 pandas
 joblib
 tensorflow
-transformers
+tensorflow==2.12.1
