@@ -1,7 +1,7 @@
-streamlit==1.35.0
+streamlit
 selenium
 scikit-learn
 pandas
-tensorflow==2.15.0
-joblib==1.4.2
-numpy==1.26.4
+joblib
+tensorflow
+transformers
