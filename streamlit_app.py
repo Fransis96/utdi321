@@ -4,12 +4,7 @@ import numpy as np
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-# ======== LOAD DNN & OBJEK PENDUKUNG ========
-try:
-    model_dnn = load_model('./model/dnn_model_v1.keras')
-except Exception:
-    st.error("❌ Gagal memuat model DNN. Pastikan file `.keras` valid.")
-    st.stop()
+model_dnn = load_model('./model/dnn_model_v1.keras')
 
 tokenizer_dnn = joblib.load('./model/tokenizer_dnn_v1.joblib')
 label_encoder_dnn = joblib.load('./model/label_encoder_v1.joblib')
